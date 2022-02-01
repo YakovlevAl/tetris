@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 //import android.support.design.widget.Snackbar
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.ActionBar
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.example.tetris.storage.AppPreferences
+import com.example.tetris.GameActivity
 
 class MainActivity : AppCompatActivity() {
+
+    var tvHighScore: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -20,7 +23,7 @@ class MainActivity : AppCompatActivity() {
         val btnNewGame = findViewById<Button>(R.id.btn_new_game)
         val btnResetScore = findViewById<Button>(R.id.btn_reset_score)
         val btnExit = findViewById<Button>(R.id.btn_exit)
-        val tvHighScore = findViewById<View>(R.id.tv_high_score)
+        tvHighScore = findViewById<TextView>(R.id.tv_high_score)
 
         btnNewGame.setOnClickListener(this::onBtnNewGameClick)
         btnResetScore.setOnClickListener(this::onBtnResetScoreClick)
@@ -28,14 +31,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onBtnNewGameClick(view: View) {
-//        val intent = Intent(this, GameActivity::class.java)
-//        startActivity(intent)
+        val intent = Intent(this, GameActivity::class.java)
+        startActivity(intent)
     }
 
     private fun onBtnResetScoreClick(view: View) {
         val preferences = AppPreferences(this)
         preferences.clearHighScore()
         Snackbar.make(view, "Score successfully reset", Snackbar.LENGTH_SHORT).show()
+        tvHighScore?.text = "High score: ${preferences.getHighScore()}"
     }
 
     private fun onBtnExitClick(view: View) {
