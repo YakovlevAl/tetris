@@ -3,10 +3,13 @@ package com.example.tetris
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+//import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.ActionBar
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import com.example.tetris.storage.AppPreferences
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +23,22 @@ class MainActivity : AppCompatActivity() {
         val tvHighScore = findViewById<View>(R.id.tv_high_score)
 
         btnNewGame.setOnClickListener(this::onBtnNewGameClick)
+        btnResetScore.setOnClickListener(this::onBtnResetScoreClick)
+        btnExit.setOnClickListener(this::onBtnExitClick)
     }
 
     private fun onBtnNewGameClick(view: View) {
-        val intent = Intent(this, GameActivity::class.java)
-        startActivity(intent)
+//        val intent = Intent(this, GameActivity::class.java)
+//        startActivity(intent)
+    }
+
+    private fun onBtnResetScoreClick(view: View) {
+        val preferences = AppPreferences(this)
+        preferences.clearHighScore()
+        Snackbar.make(view, "Score successfully reset", Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun onBtnExitClick(view: View) {
+        System.exit(0)
     }
 }
